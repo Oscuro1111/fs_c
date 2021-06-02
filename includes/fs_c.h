@@ -3,8 +3,10 @@
 
 #include <stdint.h>
 #include <stdio.h>
-
-#define IS_NULL(exp) if(exp==NULL) return 1
+#include "./mpm_list.h"
+#ifndef IS_NULL
+    #define IS_NULL(exp) if(exp==NULL) return 1
+#endif
 
 typedef struct fs_c{
 	char *name;
@@ -40,7 +42,7 @@ void fs_close_file(FS_File *);
     int fd;
   } FS_Dir;
 
-  int fs_read_dir(FS_Dir *);
+  int fs_read_dir(FS_Dir *,List *);
   int fs_delete_dir(FS_Dir *);
   int fs_append_file_dir(FS_Dir *, char *file_path);
   int fs_delete_file_dir(FS_Dir *, char *file_path);

@@ -1,4 +1,5 @@
 #include "../includes/fs_c.h"
+#include "../includes/mpm_list.h"
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -86,11 +87,8 @@ int fs_read_files(FS_File *file) {
   FILE *file_stream = fopen(file_path, "r");
 
   if (file_stream == NULL) {
-
     fprintf(stderr, "%s:unable  to open file for read.\n", file_path);
-
     free(buffer);
-
     return -1;
   }
 

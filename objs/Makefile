@@ -1,6 +1,6 @@
 GCC=gcc
 
-FLAGS=-c -O2
+FLAGS=-fPIC -c -O2
 
 OBJDIR=.
 
