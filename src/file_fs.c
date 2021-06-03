@@ -41,6 +41,7 @@ void fs_close_file(FS_File *file) {
   file->fd = -1;
   file->file = NULL;
   file->size = 0;
+  file->is_alloc = 0;
 }
 
 int fs_file_size(FS_File *file) {
