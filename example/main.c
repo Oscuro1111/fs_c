@@ -5,12 +5,11 @@
 void log_str(char *str)
 {
 
-    fprintf(stderr,"%s\n",str);
+    fprintf(stderr, "%s\n", str);
 }
 
 void free_string_ele(void *string)
 {
-    log_str("frring element");
     if (is_null(string))
     {
         free_string((String *)string);
@@ -19,18 +18,14 @@ void free_string_ele(void *string)
 
 int main(int argc, char **argv)
 {
-    List list={
-
-        .head=NULL,
-        .tail=NULL,
-        .length=0
-    };
-
+    List *list = allocate_list();
 
     FS_Dir fs_dir;
 
     Node *node;
     void *_state;
+
+    if(is_null(list)) return -1;
 
     if (argc != 3)
     {
@@ -40,11 +35,10 @@ int main(int argc, char **argv)
 
     fs_dir.name = argv[2];
     fs_dir.path = argv[1];
-    
 
-    if (fs_read_dir(&fs_dir, &list) == 0)
+    if (fs_read_dir(&fs_dir, list) == 0)
     {
-        node = mpm_list_next(&list, &_state);
+        node = mpm_list_next(list, &_state);
         if (is_null(node))
         {
             log_str("ending");
@@ -52,7 +46,7 @@ int main(int argc, char **argv)
         }
         else
             goto loop;
-        
+
         while ((node = mpm_list_next(NULL, &_state)) != NULL)
         {
         loop:
@@ -60,6 +54,6 @@ int main(int argc, char **argv)
         }
     }
 end:
-    free_list(&list, free_string_ele);
+    free_list(list, free_string_ele);
     return 0;
 }

@@ -55,7 +55,6 @@ while((direntp=readdir(dirp))!=NULL){
 
   snprintf(dir_path, 1024, "%s/%s/%s", fs->path,fs->name,direntp->d_name);
 
-
   if(is_directory(dir_path)&&(strcmp(direntp->d_name,".")!=0)&&(strcmp(direntp->d_name,"..")!=0)){
     FS_Dir fs_dir;
    
