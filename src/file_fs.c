@@ -54,11 +54,10 @@ int fs_file_size(FS_File *file) {
     return -1;
   }
   snprintf(file_path, 1024, "%s/%s", file->path, file->name);
-
+  fprintf(stderr,"file_path=%s\n",file_path);
   if (stat(file_path, &statbuf) != -1) {
     return statbuf.st_size;
   }
-
   return -1;
 }
 
@@ -66,29 +65,34 @@ int fs_read_file(FS_File *file) {
   int size;
   uint32_t i = 0;
 
+  char ch;
   char *buffer;
   char file_path[1024];
+
 
   if (check_fs_file(file) != 0) {
     return -1;
   }
 
+
   // check for any prev alloactions
   fs_close_file(file);
+
+
   // total size of file
-  if ((size = fs_file_size(file) == -1)) {
+  if (((size = fs_file_size(file)) == -1)) {
+    fprintf(stderr,"fs_size unable to work\n");
     return -1;
   }
-
   // joining path and file name for absolute path
   snprintf(file_path, 1024, "%s/%s", file->path, file->name);
 
   IS_NULL((buffer = (char *)malloc(sizeof(char) * size + 4)));
 
+
   FILE *file_stream = fopen(file_path, "r");
 
   if (file_stream == NULL) {
-    fprintf(stderr, "%s:unable  to open file for read.\n", file_path);
     free(buffer);
     return -1;
   }
@@ -97,8 +101,10 @@ int fs_read_file(FS_File *file) {
   file->file = file_stream;
 
   file->fd = -1;
-
-  for (char ch; ((ch = getc(file_stream)) != EOF);) {
+  if(buffer==NULL){
+    fprintf(stderr, "buffer==NJULL\n");
+  }
+  for (;(ch = getc(file_stream))!=EOF;){
     buffer[i++] = ch;
   }
 
@@ -108,6 +114,7 @@ int fs_read_file(FS_File *file) {
   fclose(file->file);
 
   file->file = NULL;
+
   return 0;
 }
 

@@ -22,6 +22,7 @@ int main(int argc, char **argv)
 
     FS_Dir fs_dir;
 
+    FS_File fs;
     Node *node;
     void *_state;
 
@@ -33,8 +34,16 @@ int main(int argc, char **argv)
         return -1;
     }
 
-    fs_dir.name = argv[2];
-    fs_dir.path = argv[1];
+    fs.name = argv[2];
+    fs.path = argv[1];
+
+    if(fs_read_file(&fs)!=-1){
+        fprintf(stderr,"%s\n",fs.buffer);
+        return -1;
+    }else {
+        fprintf(stderr,"Some error");
+        return -1;
+    }
 
     if (fs_read_dir(&fs_dir, list) == 0)
     {
