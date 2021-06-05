@@ -62,7 +62,7 @@ int fs_file_size(FS_File *file) {
   return -1;
 }
 
-int fs_read_files(FS_File *file) {
+int fs_read_file(FS_File *file) {
   int size;
   uint32_t i = 0;
 
