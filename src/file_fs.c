@@ -105,12 +105,10 @@ int fs_read_file(FS_File *file) {
     fprintf(stderr, "buffer==NJULL\n");
   }
 
-  for (i=0;i<size;i++){
-    buffer[i] = getc(file_stream);
-  }
-
+  i=fread(buffer,sizeof(char),size,file_stream);
+  
   file->buffer = buffer;
-  file->size = size;
+  file->size = i;
 
   fclose(file->file);
 
