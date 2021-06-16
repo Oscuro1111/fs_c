@@ -63,7 +63,7 @@ int fs_file_size(FS_File *file) {
 
 int fs_read_file(FS_File *file) {
   int size;
-  uint32_t i = 0;
+  uint32_t i;
 
   char ch;
   char *buffer;
@@ -104,12 +104,13 @@ int fs_read_file(FS_File *file) {
   if(buffer==NULL){
     fprintf(stderr, "buffer==NJULL\n");
   }
-  for (;(ch = getc(file_stream))!=EOF;){
-    buffer[i++] = ch;
+
+  for (i=0;i<size;i++){
+    buffer[i] = getc(file_stream);
   }
 
   file->buffer = buffer;
-  file->size = i;
+  file->size = size;
 
   fclose(file->file);
 
